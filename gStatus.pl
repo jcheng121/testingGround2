@@ -1,16 +1,39 @@
 
 use strict;
 my @branches = `git branch`;
-my $activeBranch;
+my $activeBranch = getActiveBranch(\@branches);
+print "my active branch is ", $activeBranch,"\n";
+checkStatus();
 
-chomp @branches;
-foreach my $branch  (@branches)
+sub checkStatus ()
 {
-   $branch =~ s/\s//g;
-   if ($branch =~ /\*(\w+)/)
+   my @status = `git status -s`;
+   chomp @status;
+   my $lines = @status;
+   if ($lines >= 1)
    {
-      $activeBranch = $1;
+      print @status;
    }
-   print $branch, "\n";
+   else
+   {
+      print "Nothing to worry about, you can switch branch\n";
+   }
 }
-print "Active Branch is <", $activeBranch, ">\n";
+
+sub getActiveBranch ()
+{
+   my ($ref_mybranches) = @_;  
+   chomp @$ref_mybranches;
+
+   foreach my $branch  (@$ref_mybranches)
+   {
+      $branch =~ s/\s//g;
+      if ($branch =~ /\*(\w+)/)
+      {
+         $activeBranch = $1;
+      }
+   }
+   return $activeBranch;
+}
+
+
