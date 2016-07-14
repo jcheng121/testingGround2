@@ -3,7 +3,8 @@ use strict;
 my @branches = `git branch`;
 my $activeBranch = getActiveBranch(\@branches);
 print "my active branch is ", $activeBranch,"\n";
-checkStatus();
+#checkStatus();
+findAllRepository("\/c");
 
 sub checkStatus ()
 {
@@ -36,4 +37,12 @@ sub getActiveBranch ()
    return $activeBranch;
 }
 
+sub findAllRepository
+{
+   my ($dir) = @_;
+   print ("Scanning through directory ", $dir);
+   print "\n","-"x80,"\n";
+   my (@repository) = system("find $dir -name \"\.git\"");
+   print @repository;
+}
 
