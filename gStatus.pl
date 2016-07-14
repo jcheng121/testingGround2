@@ -16,7 +16,9 @@ my @branches = `git branch`;
 my $activeBranch = getActiveBranch(\@branches);
 print "my active branch is ", $activeBranch,"\n";
 checkStatus();
-findAllRepository();
+
+#my $refRepository = findAllRepository("/c/perl_bin/");
+#print @$refRepository;
 
 #my @scanDirs = ("c:/perl_bin/");
 #scanDirs(\@scanDirs);
@@ -57,8 +59,8 @@ sub findAllRepository
    my ($dir) = @_;
    print ("Scanning through directory ", $dir);
    print "\n","-"x80,"\n";
-   my (@repository) = system("find $dir -name \"\.git\"");
-   print @repository;
+   my (@repository) = `find $dir -name \"\.git\"`;
+   return \@repository;
 }
 
 sub scanDirs
@@ -67,7 +69,6 @@ sub scanDirs
    searchForPath($rDirs, $rExcludeDirs);
    #return getDirs();
 }
-
 
 sub searchDir 
 { 
