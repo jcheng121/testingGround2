@@ -16,8 +16,10 @@ my @branches = `git branch`;
 my $activeBranch = getActiveBranch(\@branches);
 print "my active branch is ", $activeBranch,"\n";
 checkStatus();
-my @scanDirs = ("c:/perl_bin/");
-scanDirs(\@scanDirs);
+findAllRepository();
+
+#my @scanDirs = ("c:/perl_bin/");
+#scanDirs(\@scanDirs);
 
 sub checkStatus ()
 {
@@ -74,23 +76,6 @@ sub searchDir
    {
       print $dir,"\n";
    }
-   #if (-d and -t)
-   #{
-   #   if ($File::Find::name =~ /.*\.git/)
-   #   {
-   #      print $dir if $verbose eq 1;
-   #      $path =~ s/$dir//;
-   #      $path =~ s/^\///;
-   #      if (defined $dirs{$dir})
-   #      {
-   #         push (@{$dirs{$dir}}, $path);
-   #      }
-   #      else
-   #      {
-   #         $dirs{$dir} = [$path];
-   #      }
-   #   }
-   #}
 }
 
 sub searchForPath 
@@ -110,12 +95,6 @@ sub findFile
    if (-f and -t)
    {
       $path =~ s/.*\///;
-      #if ($path eq $myFileToFind)
-      #{
-      #    #print $File::Find::name , " " , $path , " -> ", $myFileToFind,"\n";
-      #    $dirFound = $dir;
-      #    return;
-      #}
    }
 }
 
