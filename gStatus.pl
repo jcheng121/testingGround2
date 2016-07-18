@@ -1,8 +1,9 @@
 
 #------------------------------------------------------------------------------#
-# Version 1.1                                                                  #
+# Version 1.2                                                                  #
 #------------------------------------------------------------------------------#
 # This is a testing script that I am using to only record git and exercise git #
+# This is from testingGround2 Repository master branch                         #
 #------------------------------------------------------------------------------#
 use strict;
 use Env;
