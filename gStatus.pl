@@ -3,7 +3,6 @@
 # Version 1.2                                                                  #
 #------------------------------------------------------------------------------#
 # This is a testing script that I am using to only record git and exercise git #
-# This is from testingGround2 Repository master branch                         #
 #------------------------------------------------------------------------------#
 use strict;
 use Env;
@@ -13,14 +12,21 @@ no warnings 'File::Find';
 
 my @excludeDirs;
 my %dirs;
+my $version = "1.1";
 
 my $pwd;
 my $verbose;
 my %gitDirs;
 
+print $0, ">> ", $version,"\n";
 my @branches = `git branch`;
-my $activeBranch = getActiveBranch(\@branches);
+my $isRebasingActive = 0;
+my $activeBranch = getActiveBranch(\@branches,\$isRebasingActive);
 print "my active branch is ", $activeBranch,"\n";
+if ($isRebasingActive eq 1 )
+{
+    print "**** currently we are rebasing **** \n";
+}
 checkStatus();
 
 #my $refRepository = findAllRepository("/c/perl_bin/");
@@ -36,7 +42,7 @@ sub checkStatus ()
    my $lines = @status;
    if ($lines >= 1)
    {
-      print @status;
+      print "\n", @status;
    }
    else
    {
@@ -46,13 +52,18 @@ sub checkStatus ()
 
 sub getActiveBranch ()
 {
-   my ($ref_mybranches) = @_;  
+   my ($ref_mybranches, $refRebasing) = @_;  
    chomp @$ref_mybranches;
 
    foreach my $branch  (@$ref_mybranches)
    {
-      $branch =~ s/\s//g;
-      if ($branch =~ /\*(\w+)/)
+      # Order dependent
+      if ($branch =~ /rebasing (.*\))/)
+      {
+         $activeBranch = $1;
+	 $$refRebasing  = 1;
+      }
+      elsif ($branch =~ /\*(\w+)/)
       {
          $activeBranch = $1;
       }
@@ -143,5 +154,6 @@ sub searchMyDir
       #}
    }
 }
+
 
 
